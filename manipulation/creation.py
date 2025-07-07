@@ -26,7 +26,7 @@ def classify_direction(change):
     if change > 0.05:
         return 0  # High Up
     elif change > 0.01:
-        return 1  # Low High
+        return 1  # Low Up
     elif change > -0.05:
         return 2  # High Down
     else:
@@ -37,7 +37,7 @@ print(rl['direction_class'].value_counts())
 ####################################################
 label_map = {
     0: "High Up",
-    1: "Low High",
+    1: "Low Up",
     2: "Low Down",
     3: "High Down"
 }
