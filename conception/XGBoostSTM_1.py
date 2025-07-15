@@ -78,4 +78,4 @@ plt.tight_layout()
 plt.show()
 
 # Save the model
-joblib.dump(model, "XGBoostSTM_1.pkl")
+joblib.dump(model, "XGBoostSTM_2.pkl")

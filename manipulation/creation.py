@@ -1,6 +1,6 @@
 import pandas as pd
 
-rl = pd.read_excel("dataset_noLag.xlsx",  header=0)
+rl = pd.read_excel("Data/dataset_noLag.xlsx",  header=0)
 
 def create():
     rl["Close"]= pd.to_numeric(rl["Close"], errors='coerce')
@@ -33,19 +33,44 @@ def classify_direction(change):
     else  :
         return 2  # High Down
     
+def create_class():
+    rl['direction_class'] = rl['future_target_1wk'].apply(classify_direction)
+    print(rl['direction_class'].value_counts())
+    ####################################################
+    label_map = {
+        0: "High Up",
+        1: "Low Up",
+        2: "Down",
+    }
 
-rl['direction_class'] = rl['future_target_1wk'].apply(classify_direction)
-print(rl['direction_class'].value_counts())
-####################################################
-label_map = {
-    0: "High Up",
-    1: "Low Up",
-    2: "Down",
-}
+    rl['direction_label'] = rl['direction_class'].map(label_map)
+    #####################################################
 
-rl['direction_label'] = rl['direction_class'].map(label_map)
-#####################################################
+
+
+def calculate_rsi(series, period=14):
+    delta = series.diff()
+    gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
+    rs = gain / loss
+    rsi = 100 - (100 / (1 + rs))
+    return rsi
+
+rl['RSI_14'] = calculate_rsi(rl['Close'], 14)
+
+def calculate_macd(series, short_period=12, long_period=26, signal_period=9):
+    ema_short = series.ewm(span=short_period, adjust=False).mean()
+    ema_long = series.ewm(span=long_period, adjust=False).mean()
+    macd_line = ema_short - ema_long
+    signal_line = macd_line.ewm(span=signal_period, adjust=False).mean()
+    histogram = macd_line - signal_line
+    return macd_line, signal_line, histogram
+
+rl['MACD'], rl['MACD_Signal'], rl['MACD_Hist'] = calculate_macd(rl['Close'])
+
 
 
 
 rl.to_excel("Data/dataset_with_3Class.xlsx", index=False)
+
+
