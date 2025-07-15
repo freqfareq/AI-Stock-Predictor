@@ -1,6 +1,6 @@
 import pandas as pd
 
-rl = pd.read_excel("reliance_1wk_BollingerBands.xlsx",  header=0)
+rl = pd.read_excel("dataset_noLag.xlsx",  header=0)
 
 def create():
     rl["Close"]= pd.to_numeric(rl["Close"], errors='coerce')
@@ -30,7 +30,7 @@ def classify_direction(change):
         return 0  # High Up
     elif change > 0.01:
         return 1  # Low Up
-    elif change > -0.05:
+    else  :
         return 2  # High Down
     
 

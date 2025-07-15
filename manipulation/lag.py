@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load your data
-rl = pd.read_excel("reliance_1wk_BollingerBands.xlsx")
+rl = pd.read_excel("Data\dataset_with_3Class_nlg.xlsx")
 
 # List of columns to create lag features for
 lag_cols = ['Close', 'volume %', 'chng %', 'percent_b', 'price_vs_sma', 'future_target_1wk']
@@ -15,4 +15,4 @@ for col in lag_cols:
 rl.dropna(inplace=True)
 
 # Save updated DataFrame to Excel
-rl.to_excel("reliance_1wk_BollingerBands.xlsx", index=False)
+rl.to_excel("Data\dataset_with_3Class.xlsx", index=False)
