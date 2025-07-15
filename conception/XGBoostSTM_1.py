@@ -78,4 +78,4 @@ plt.tight_layout()
 plt.show()
 
 # Save the model
-joblib.dump(model, "xgboost_model_with_lags.pkl")
+joblib.dump(model, "XGBoostSTM_1.pkl")
