@@ -16,9 +16,10 @@ rl["volume %"] =rl["Volume"].pct_change() * 100 # Volume percentage change .
 rl["sma_20"]= rl['Close'].rolling(20).mean()
 rl["price_vs_sma"]= (rl['Close'] - rl["sma_20"])/ rl["sma_20"] # sma deviation 
 
-rl["percent_b"] =(rl['Close']- rl['Lower Band']) / (rl["Upper Band"]-rl["Lower Band"]) # B percentage 
+rl["percent_b"] =(rl['Close']- rl['Lower Band']) / (rl["Upper Band"]-rl["Lower Band"]) # B percentage (volatility) 
 
 rl["future_target_1wk"]= rl["Close"].shift(-1)/rl["Close"] - 1 # Return or Future Target (labelling)
+
 
 
 ####################################################
