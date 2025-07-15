@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import joblib
 
 # Load dataset
-rl = pd.read_excel("reliance_1wk_BollingerBands.xlsx")
+rl = pd.read_excel("Data/dataset_with_lag3.xlsx")
 
 # Create lag features
 lag_cols = ['Close', 'volume %', 'chng %', 'percent_b', 'price_vs_sma', 'future_target_1wk']
