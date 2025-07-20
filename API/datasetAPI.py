@@ -1,5 +1,5 @@
 import yfinance as yf
 dat = yf.Ticker("MSFT")
 
-rl = yf.download("RELIANCE.NS" , period="max" , interval="1wk")
-rl.to_excel("reliance_1week_max.xlsx")
+df = yf.download("RELIANCE.NS" , period="max" , interval="1wk")
+df.to_excel(r"Test\Test_1_LGBM\testData.xlsx")

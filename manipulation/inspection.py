@@ -1,5 +1,5 @@
 import pandas as pd 
  
-df = pd.read_excel("reliance_1wk_BollingerBands.xlsx")
+df = pd.read_excel("Data\class_3\side.xlsx")
 
 print(df.describe())

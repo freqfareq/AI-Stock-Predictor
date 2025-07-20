@@ -1,6 +1,16 @@
 import pandas as pd
 
-rl = pd.read_excel("Data/dataset_noLag.xlsx",  header=0)
+class_3_read = "Data\class_3\dataset.xlsx"
+class_4_read = "Data\class_4\dataset.xlsx"
+
+class_3_to = "Data\class_4\dataset_with_extra_ft.xlsx"
+class_4_to = "Data\class_4\dataset_with_extra_ft.xlsx"
+
+data_read = r"Data\reliance_data.xlsx"  
+data_save = r"Data\class_3\side.xlsx"
+
+
+rl = pd.read_excel(data_read,  header=0)
 
 def create():
     rl["Close"]= pd.to_numeric(rl["Close"], errors='coerce')
@@ -14,6 +24,9 @@ def create():
     rl["volume %"] =rl["Volume"].pct_change() * 100 # Volume percentage change . 
 
     rl["sma_20"]= rl['Close'].rolling(20).mean()
+    rl["sma_10"]= rl['Close'].rolling(10).mean()
+    rl["sma_5"]= rl['Close'].rolling(5).mean()
+    rl["sma_15"]= rl['Close'].rolling(15).mean()
     rl["price_vs_sma"]= (rl['Close'] - rl["sma_20"])/ rl["sma_20"] # sma deviation 
 
     rl["percent_b"] =(rl['Close']- rl['Lower Band']) / (rl["Upper Band"]-rl["Lower Band"]) # B percentage (volatility) 
@@ -22,31 +35,31 @@ def create():
 
 
 
-
+create()
 
 ####################################################
 def classify_direction(change):
-    if change > 0.05:
-        return 0  # High Up
-    elif change > 0.01:
-        return 1  # Low Up
-    else  :
-        return 2  # High Down
-    
+    if change > 0.01:
+        return 1 # up
+    elif change < -0.01:
+        return 2 # down
+    else:
+        return 0 # side
+
 def create_class():
     rl['direction_class'] = rl['future_target_1wk'].apply(classify_direction)
     print(rl['direction_class'].value_counts())
     ####################################################
     label_map = {
-        0: "High Up",
-        1: "Low Up",
-        2: "Down",
+        0: "side",
+        1: "up",
+        2: "down"
     }
 
     rl['direction_label'] = rl['direction_class'].map(label_map)
     #####################################################
 
-
+create_class()
 
 def calculate_rsi(series, period=14):
     delta = series.diff()
@@ -71,6 +84,6 @@ rl['MACD'], rl['MACD_Signal'], rl['MACD_Hist'] = calculate_macd(rl['Close'])
 
 
 
-rl.to_excel("Data/dataset_with_3Class.xlsx", index=False)
+rl.to_excel(data_save, index=False)
 
 
